@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number Game</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .game-container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+            width: 350px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 70px;
+            text-align: center;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background-color: #6a11cb;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #2575fc;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #attempts {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .restart {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .restart button {
+            background-color: #ff4b5c;
+        }
+
+        .restart button:hover {
+            background-color: #ff2e3c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>Guess the Number 🎯</h1>
+        <p>Enter a number between 1 and 100</p>
+
+        <input type="number" id="guessInput" min="1" max="100">
+        <button onclick="checkGuess()">Guess</button>
+
+        <p id="message"></p>
+        <p id="attempts"></p>
+
+        <div class="restart">
+            <button onclick="restartGame()">Restart Game</button>
+        </div>
+    </div>
+
+    <script>
+        let randomNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        function checkGuess() {
+            let userGuess = Number(document.getElementById('guessInput').value);
+            attempts++;
+            let message = '';
+
+            if (!userGuess || userGuess < 1 || userGuess > 100) {
+                message = "⚠️ Please enter a number between 1 and 100!";
+            } else if (userGuess === randomNumber) {
+                message = `🎉 Congrats! You guessed the number ${randomNumber} in ${attempts} attempts!`;
+                document.querySelector('.restart').style.display = 'block';
+            } else if (userGuess < randomNumber) {
+                message = "⬆️ Too low! Try a higher number.";
+            } else if (userGuess > randomNumber) {
+                message = "⬇️ Too high! Try a lower number.";
+            }
+
+            document.getElementById('message').textContent = message;
+            document.getElementById('attempts').textContent = `Attempts: ${attempts}`;
+        }
+
+        function restartGame() {
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            document.getElementById('guessInput').value = '';
+            document.getElementById('message').textContent = '';
+            document.getElementById('attempts').textContent = '';
+            document.querySelector('.restart').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
