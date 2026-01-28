@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            width: 360px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #667eea;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: #667eea;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #5563d6;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Login</h2>
+
+        <form id="loginForm">
+            <div class="input-group">
+                <label>Email</label>
+                <input type="text" id="email">
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password">
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <div id="message" class="message"></div>
+
+        <div class="register-link">
+            Don’t have an account? <a href="#">Register</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const message = document.getElementById("message");
+
+            message.textContent = "";
+            message.className = "message";
+
+            if (email === "" || password === "") {
+                message.textContent = "❌ All fields are required!";
+                message.classList.add("error");
+                return;
+            }
+
+            const savedUser = JSON.parse(localStorage.getItem("user"));
+
+            if (!savedUser) {
+                message.textContent = "❌ No account found. Please register first!";
+                message.classList.add("error");
+                return;
+            }
+
+            if (email === savedUser.email && password === savedUser.password) {
+                message.textContent = "✅ Login successful!";
+                message.classList.add("success");
+            } else {
+                message.textContent = "❌ Invalid email or password!";
+                message.classList.add("error");
+            }
+        });
+    </script>
+
+</body>
+</html>
