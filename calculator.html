@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        /* Glassmorphism Container */
+        .calculator {
+            position: relative;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            width: 350px;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        #display {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            text-align: right;
+            font-size: 3.5rem;
+            color: #fff;
+            padding: 0 10px;
+            font-weight: 300;
+            outline: none;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        input[type="button"] {
+            padding: 20px;
+            font-size: 1.2rem;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            transition: 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+        }
+
+        input[type="button"]:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        input[type="button"]:active {
+            transform: translateY(1px);
+        }
+
+        /* Special Keys */
+        .operator {
+            background: rgba(118, 75, 162, 0.6) !important;
+        }
+
+        .operator:hover {
+            background: rgba(118, 75, 162, 0.8) !important;
+        }
+
+        .equal {
+            grid-column: span 2;
+            background: #ff6b6b !important;
+            /* Vibrant Red/Coral for Pop */
+        }
+
+        .equal:hover {
+            background: #ff4757 !important;
+        }
+
+        .clear {
+            background: #4ecdc4 !important;
+            /* Teal for safe action */
+        }
+
+        .delete {
+            background: #4ecdc4 !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="calculator">
+        <form name="calc">
+            <div class="screen">
+                <input type="text" name="display" id="display" readonly>
+            </div>
+            <div class="buttons">
+                <!-- Row 1 -->
+                <input type="button" value="AC" class="clear" onclick="clearDisplay()">
+                <input type="button" value="DEL" class="delete" onclick="deleteChar()">
+                <input type="button" value="%" class="operator" onclick="appendOperator('%')">
+                <input type="button" value="/" class="operator" onclick="appendOperator('/')">
+
+                <!-- Row 2 -->
+                <input type="button" value="7" onclick="appendNumber('7')">
+                <input type="button" value="8" onclick="appendNumber('8')">
+                <input type="button" value="9" onclick="appendNumber('9')">
+                <input type="button" value="*" class="operator" onclick="appendOperator('*')">
+
+                <!-- Row 3 -->
+                <input type="button" value="4" onclick="appendNumber('4')">
+                <input type="button" value="5" onclick="appendNumber('5')">
+                <input type="button" value="6" onclick="appendNumber('6')">
+                <input type="button" value="-" class="operator" onclick="appendOperator('-')">
+
+                <!-- Row 4 -->
+                <input type="button" value="1" onclick="appendNumber('1')">
+                <input type="button" value="2" onclick="appendNumber('2')">
+                <input type="button" value="3" onclick="appendNumber('3')">
+                <input type="button" value="+" class="operator" onclick="appendOperator('+')">
+
+                <!-- Row 5 -->
+                <input type="button" value="0" onclick="appendNumber('0')">
+                <input type="button" value="." onclick="appendNumber('.')">
+                <input type="button" value="=" class="equal" onclick="calculate()">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+
+        function appendNumber(num) {
+            display.value += num;
+        }
+
+        function appendOperator(op) {
+            const lastChar = display.value.slice(-1);
+            if (['+', '-', '*', '/', '%'].includes(lastChar)) {
+                // Prevent double operators
+                display.value = display.value.slice(0, -1) + op;
+            } else {
+                display.value += op;
+            }
+        }
+
+        function clearDisplay() {
+            display.value = '';
+        }
+
+        function deleteChar() {
+            display.value = display.value.toString().slice(0, -1);
+        }
+
+        function calculate() {
+            try {
+                // Eval is simple for this scope, but caution in prod. 
+                // For a simple calculator this is standard.
+                if (display.value === '') return;
+                display.value = eval(display.value);
+            } catch (e) {
+                display.value = 'Error';
+                setTimeout(() => clearDisplay(), 1500);
+            }
+        }
+
+        // Keyboard support
+        document.addEventListener('keydown', (event) => {
+            const key = event.key;
+            if ((key >= 0 && key <= 9) || key === '.') {
+                appendNumber(key);
+            } else if (['+', '-', '*', '/'].includes(key)) {
+                appendOperator(key);
+            } else if (key === 'Enter') {
+                event.preventDefault(); // Prevent form submission
+                calculate();
+            } else if (key === 'Backspace') {
+                deleteChar();
+            } else if (key === 'Escape') {
+                clearDisplay();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
