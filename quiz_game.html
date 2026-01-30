@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Quiz App</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .quiz-card {
+            width: 420px;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 25px 40px rgba(0,0,0,0.3);
+            color: #fff;
+            animation: fadeIn 0.7s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .option {
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateX(5px);
+        }
+
+        .option.correct {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+            color: #000;
+        }
+
+        .option.wrong {
+            background: linear-gradient(135deg, #ff1744, #ff5252);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.03);
+            opacity: 0.95;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-card">
+        <h2 id="question">Question</h2>
+        <div id="options"></div>
+        <button onclick="nextQuestion()">Next</button>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const quiz = [
+            {
+                question: "What is the capital of Pakistan?",
+                options: ["A. Islamabad", "B. Karachi", "C. Quetta", "D. Punjab"],
+                answer: "A"
+            },
+            {
+                question: "What is the national language of Pakistan?",
+                options: ["A. Punjabi", "B. English", "C. Urdu", "D. Sindhi"],
+                answer: "C"
+            },
+            {
+                question: "Who is the founder of Pakistan?",
+                options: ["A. Allama Iqbal", "B. Liaquat Ali Khan", "C. Muhammad Ali Jinnah", "D. Sir Syed Ahmed Khan"],
+                answer: "C"
+            },
+            {
+                question: "What is the national animal of Pakistan?",
+                options: ["A. Elephant", "B. Tiger", "C. Lion", "D. Markhor"],
+                answer: "D"
+            }
+        ];
+
+        quiz.sort(() => Math.random() - 0.5);
+
+        let index = 0;
+        let score = 0;
+        let answered = false;
+
+        const questionEl = document.getElementById("question");
+        const optionsEl = document.getElementById("options");
+        const resultEl = document.getElementById("result");
+
+        function loadQuestion() {
+            answered = false;
+            optionsEl.innerHTML = "";
+            resultEl.textContent = "";
+
+            const q = quiz[index];
+            questionEl.textContent = `Q${index + 1}. ${q.question}`;
+
+            q.options.forEach(option => {
+                const div = document.createElement("div");
+                div.className = "option";
+                div.textContent = option;
+                div.onclick = () => checkAnswer(div, option[0]);
+                optionsEl.appendChild(div);
+            });
+        }
+
+        function checkAnswer(el, selected) {
+            if (answered) return;
+            answered = true;
+
+            if (selected === quiz[index].answer) {
+                el.classList.add("correct");
+                score++;
+            } else {
+                el.classList.add("wrong");
+                document.querySelectorAll(".option").forEach(opt => {
+                    if (opt.textContent.startsWith(quiz[index].answer)) {
+                        opt.classList.add("correct");
+                    }
+                });
+            }
+        }
+
+        function nextQuestion() {
+            if (!answered) {
+                alert("Select an option first 🙂");
+                return;
+            }
+
+            index++;
+            if (index < quiz.length) {
+                loadQuestion();
+            } else {
+                questionEl.textContent = "🎉 Quiz Finished";
+                optionsEl.innerHTML = "";
+                resultEl.textContent = `Your Score: ${score} / ${quiz.length}`;
+            }
+        }
+
+        loadQuestion();
+    </script>
+
+</body>
+</html>
