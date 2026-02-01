@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Rolling Game</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 30px;
+            width: 380px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .dice-box {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+
+        .dice {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            font-size: 36px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .dice.roll {
+            transform: rotate(360deg);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .message {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎲 Dice Roller</h1>
+
+        <div class="dice-box">
+            <div class="dice" id="dice1">-</div>
+            <div class="dice" id="dice2">-</div>
+        </div>
+
+        <button onclick="rollDice()">Roll Dice</button>
+        <button onclick="resetDice()">Reset</button>
+
+        <div class="message" id="message">
+            Click "Roll Dice" to start
+        </div>
+    </div>
+
+    <script>
+        function rollDice() {
+            const dice1 = document.getElementById("dice1");
+            const dice2 = document.getElementById("dice2");
+            const message = document.getElementById("message");
+
+            // add animation
+            dice1.classList.add("roll");
+            dice2.classList.add("roll");
+
+            setTimeout(() => {
+                const value1 = Math.floor(Math.random() * 6) + 1;
+                const value2 = Math.floor(Math.random() * 6) + 1;
+
+                dice1.textContent = value1;
+                dice2.textContent = value2;
+
+                dice1.classList.remove("roll");
+                dice2.classList.remove("roll");
+
+                message.textContent = `You rolled (${value1}, ${value2}) 🎉`;
+            }, 300);
+        }
+
+        function resetDice() {
+            document.getElementById("dice1").textContent = "-";
+            document.getElementById("dice2").textContent = "-";
+            document.getElementById("message").textContent = "Game reset. Roll again!";
+        }
+    </script>
+
+</body>
+</html>
