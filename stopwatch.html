@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stopwatch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #1d2671, #c33764);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stopwatch {
+            background: white;
+            width: 360px;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .time {
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            color: #1d2671;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            color: white;
+        }
+
+        .start {
+            background: linear-gradient(135deg, #00b09b, #96c93d);
+        }
+
+        .pause {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            color: #000;
+        }
+
+        .reset {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stopwatch">
+        <h1>⏱️ Stopwatch</h1>
+
+        <div class="time" id="display">
+            00:00:00
+        </div>
+
+        <div class="buttons">
+            <button class="start" onclick="start()">Start</button>
+            <button class="pause" onclick="pause()">Pause</button>
+            <button class="reset" onclick="reset()">Reset</button>
+        </div>
+    </div>
+
+    <script>
+        let timer = null;
+        let seconds = 0;
+        let isRunning = false;
+
+        function updateDisplay() {
+            let hrs = Math.floor(seconds / 3600);
+            let mins = Math.floor((seconds % 3600) / 60);
+            let secs = seconds % 60;
+
+            document.getElementById("display").textContent =
+                `${String(hrs).padStart(2, '0')}:` +
+                `${String(mins).padStart(2, '0')}:` +
+                `${String(secs).padStart(2, '0')}`;
+        }
+
+        function start() {
+            if (isRunning) return;
+
+            isRunning = true;
+            timer = setInterval(() => {
+                seconds++;
+                updateDisplay();
+            }, 1000);
+        }
+
+        function pause() {
+            clearInterval(timer);
+            isRunning = false;
+        }
+
+        function reset() {
+            clearInterval(timer);
+            isRunning = false;
+            seconds = 0;
+            updateDisplay();
+        }
+    </script>
+
+</body>
+</html>
