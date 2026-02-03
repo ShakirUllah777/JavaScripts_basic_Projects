@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Thermometer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #232526, #414345);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+            background: white;
+            width: 380px;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 50px;
+            border: 1px solid #ccc;
+            outline: none;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 25px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .thermometer {
+            width: 60px;
+            height: 220px;
+            background: #eee;
+            border-radius: 30px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mercury {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 0%;
+            background: blue;
+            border-radius: 30px;
+            transition: 0.5s;
+        }
+
+        .status {
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h1>🌡️ Thermometer</h1>
+
+        <input type="number" id="tempInput" placeholder="Enter temperature (°C)">
+
+        <button onclick="updateTemp()">Check Temperature</button>
+
+        <div class="thermometer">
+            <div class="mercury" id="mercury"></div>
+        </div>
+
+        <div class="status" id="status">Waiting for input...</div>
+    </div>
+
+    <script>
+        function updateTemp() {
+            const temp = document.getElementById('tempInput').value;
+            const mercury = document.getElementById('mercury');
+            const status = document.getElementById('status');
+
+            if (temp === '') {
+                alert('Please enter a temperature')
+                return;
+            }
+
+            let percentage = (temp + 10) * 100 / 60;
+            percentage = Math.max(0, Math.min(100, percentage))
+
+            mercury.style.height = percentage + "%";
+
+            if (temp < 10) {
+                mercury.style.background = "#3498db";
+                status.textContent = '❄️  Cold';
+                status.style.color = '#3498db';
+            } else if (temp < 30) {
+                mercury.style.background = "#f1c40f";
+                status.textContent = "🌤️ Normal";
+                status.style.color = "#f1c40f";
+            } else {
+                mercury.style.background = "#e74c3c";
+                status.textContent = "🔥 Hot";
+                status.style.color = "#e74c3c";
+            }
+
+
+        }
+    </script>
+
+</body>
+
+</html>
