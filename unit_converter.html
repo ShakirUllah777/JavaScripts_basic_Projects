@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Length Unit Converter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #0f0f0f, #1f1f1f);
+        }
+
+        .converter {
+            background: white;
+            width: 420px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.3);
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        body.dark .converter {
+            background: #1e1e1e;
+            color: white;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 50px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            outline: none;
+            text-align: center;
+        }
+
+        body.dark input,
+        body.dark select {
+            background: #2a2a2a;
+            color: white;
+            border: 1px solid #444;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .convert {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: white;
+        }
+
+        .clear {
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+        }
+
+        .toggle {
+            background: linear-gradient(135deg, #8e2de2, #4a00e0);
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="converter">
+        <button class="toggle" onclick="toggleTheme()">🌙 Toggle Dark Mode</button>
+
+        <h1>📏 Length Converter</h1>
+
+        <input type="number" id="value" placeholder="Enter value">
+
+        <div class="row">
+            <select id="fromUnit">
+                <option value="m">Meter</option>
+                <option value="cm">Centimeter</option>
+                <option value="km">Kilometer</option>
+                <option value="mile">Mile</option>
+            </select>
+
+            <select id="toUnit">
+                <option value="cm">Centimeter</option>
+                <option value="m">Meter</option>
+                <option value="km">Kilometer</option>
+                <option value="mile">Mile</option>
+            </select>
+        </div>
+
+        <button class="convert" onclick="convert()">Convert</button>
+        <button class="clear" onclick="clearAll()">Clear</button>
+
+        <div class="result" id="result">Result will appear here</div>
+    </div>
+
+    <script>
+        function convert() {
+            const value = parseFloat(document.getElementById("value").value);
+            const from = document.getElementById("fromUnit").value;
+            const to = document.getElementById("toUnit").value;
+            const result = document.getElementById("result");
+
+            if (isNaN(value)) {
+                alert("Please enter a valid number");
+                return;
+            }
+
+            let meters;
+
+            if (from === "m") meters = value;
+            if (from === "cm") meters = value / 100;
+            if (from === "km") meters = value * 1000;
+            if (from === "mile") meters = value * 1609.34;
+
+            let output;
+            if (to === "m") output = meters;
+            if (to === "cm") output = meters * 100;
+            if (to === "km") output = meters / 1000;
+            if (to === "mile") output = meters / 1609.34;
+
+            result.textContent = `${value} ${from} = ${output.toFixed(4)} ${to}`;
+        }
+
+        function clearAll() {
+            document.getElementById("value").value = "";
+            document.getElementById("result").textContent = "Result will appear here";
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle("dark");
+        }
+    </script>
+
+</body>
+</html>
