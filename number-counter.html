@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Counter Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #445f6b, #203a43, #2c5364);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            width: 220px;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        .number {
+            font-size: 40px;
+            font-weight: bold;
+            color: #2c5364;
+        }
+
+        .label {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        h1 {
+            position: absolute;
+            top: 40px;
+            color: white;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>📊 Our Achievements</h1>
+
+    <div class="container">
+        <div class="card">
+            <div class="number" data-target="1200">0</div>
+            <div class="label">Happy Users</div>
+        </div>
+
+        <div class="card">
+            <div class="number" data-target="350">0</div>
+            <div class="label">Projects Done</div>
+        </div>
+
+        <div class="card">
+            <div class="number" data-target="15">0</div>
+            <div class="label">Awards</div>
+        </div>
+
+        <div class="card">
+            <div class="number" data-target="5">0</div>
+            <div class="label">Years Experience</div>
+        </div>
+    </div>
+
+
+    <script>
+        const counters = document.querySelectorAll('.number');
+
+        counters.forEach ( counter => {
+            const updateCount = () => {
+                const traget = +counter.getAttribute('data-target');
+                const current = +counter.innerText;
+
+
+                const increment = Math.ceil(traget / 100);
+
+                if (counter < traget){
+                    counter.innerText = current + increment;
+                    setTimeout(updateCount, 20);
+                } else {
+                    counter.innerText = traget;
+                }
+            };
+
+            updateCount();
+        });
+    </script>
+</body>
+
+</html>
