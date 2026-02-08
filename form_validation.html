@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Form Validator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            background: linear-gradient(135deg, #8360c3, #2ebf91);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-card {
+            background: white;
+            width: 420px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 25px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border-radius: 50px;
+            border: 1px solid #ccc;
+            outline: none;
+            font-size: 15px;
+        }
+
+        input:focus {
+            border-color: #2ebf91;
+        }
+
+        .error {
+            font-size: 13px;
+            color: #e74c3c;
+            margin-top: 5px;
+        }
+
+        .success {
+            font-size: 16px;
+            text-align: center;
+            color: #2ecc71;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #2ebf91, #1e8e6e);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-card">
+        <h1>📝 Register</h1>
+
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="name">
+            <div class="error" id="nameError"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" id="email">
+            <div class="error" id="emailError"></div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="password">
+            <div class="error" id="passwordError"></div>
+        </div>
+
+        <button onclick="validateForm()">Submit</button>
+
+        <div class="success" id="successMsg"></div>
+    </div>
+
+    <script>
+        function validateForm() {
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+
+            const nameError = document.getElementById("nameError");
+            const emailError = document.getElementById("emailError");
+            const passwordError = document.getElementById("passwordError");
+            const successMsg = document.getElementById("successMsg");
+
+            nameError.textContent = "";
+            emailError.textContent = "";
+            passwordError.textContent = "";
+            successMsg.textContent = "";
+
+            let isValid = true;
+
+            if (name === "") {
+                nameError.textContent = "Name is required";
+                isValid = false;
+            }
+
+            if (email === "") {
+                emailError.textContent = "Email is required";
+                isValid = false;
+            } else if (!email.includes("@")) {
+                emailError.textContent = "Enter a valid email";
+                isValid = false;
+            }
+
+            if (password.length < 6) {
+                passwordError.textContent = "Password must be at least 6 characters";
+                isValid = false;
+            }
+
+            if (isValid) {
+                successMsg.textContent = "Form submitted successfully ✅";
+            }
+        }
+    </script>
+
+</body>
+</html>
