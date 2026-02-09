@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FAQ Accordion</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .accordion-container {
+            background: #fff;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            color: #333;
+            transition: background 0.3s;
+        }
+
+        .accordion-header:hover {
+            background: #f2f2f2;
+        }
+
+        .accordion-header span {
+            font-size: 22px;
+            transition: transform 0.3s;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+            padding: 0 15px;
+        }
+
+        .accordion-content p {
+            padding: 15px 0;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 200px;
+        }
+
+        .accordion-item.active .accordion-header span {
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="accordion-container">
+        <h1>❓ Frequently Asked Questions</h1>
+
+        <div class="accordion-item">
+            <div class="accordion-header">
+                What is HTML?
+                <span>+</span>
+            </div>
+            <div class="accordion-content">
+                <p>
+                    HTML stands for HyperText Markup Language. It is used to structure
+                    content on the web.
+                </p>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">
+                What is CSS?
+                <span>+</span>
+            </div>
+            <div class="accordion-content">
+                <p>
+                    CSS stands for Cascading Style Sheets. It is used to style and
+                    design web pages.
+                </p>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">
+                What is JavaScript?
+                <span>+</span>
+            </div>
+            <div class="accordion-content">
+                <p>
+                    JavaScript is a programming language that makes web pages
+                    interactive and dynamic.
+                </p>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">
+                Is this project beginner friendly?
+                <span>+</span>
+            </div>
+            <div class="accordion-content">
+                <p>
+                    Yes! This project is perfect for beginners to understand DOM
+                    manipulation and UI behavior.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const items = document.querySelectorAll(".accordion-item");
+
+        items.forEach(item => {
+            const header = item.querySelector(".accordion-header");
+
+            header.addEventListener("click", () => {
+                items.forEach(i => {
+                    if (i !== item) {
+                        i.classList.remove("active");
+                    }
+                });
+
+                item.classList.toggle("active");
+            });
+        });
+    </script>
+
+</body>
+</html>
