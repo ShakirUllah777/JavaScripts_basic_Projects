@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Progress Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #43cea2, #185a9d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .tracker {
+            background: #fff;
+            width: 100%;
+            max-width: 420px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .goal-input {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        .progress-container {
+            background: #eee;
+            border-radius: 30px;
+            overflow: hidden;
+            height: 25px;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #43cea2, #185a9d);
+            transition: width 0.4s ease;
+        }
+
+        .percentage {
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            color: #fff;
+            transition: transform 0.2s, opacity 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .add {
+            background: #28a745;
+        }
+
+        .remove {
+            background: #dc3545;
+        }
+
+        .reset {
+            background: #6c757d;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .goal-title {
+            margin-top: 10px;
+            font-weight: 600;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tracker">
+        <h1>🎯 Goal Tracker</h1>
+
+        <input type="text" class="goal-input" placeholder="Enter your goal (e.g. Learn JavaScript)">
+
+        <div class="goal-title" id="goalText">Your Goal</div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="percentage" id="percentage">0%</div>
+
+        <div class="buttons">
+            <button class="add" onclick="increase()">+ Add</button>
+            <button class="remove" onclick="decrease()">- Remove</button>
+        </div>
+
+        <button class="reset" onclick="resetProgress()">Reset</button>
+    </div>
+
+    <script>
+        let progress = 0;
+
+        const progressBar = document.getElementById("progressBar");
+        const percentageText = document.getElementById("percentage");
+        const goalInput = document.querySelector(".goal-input");
+        const goalText = document.getElementById("goalText");
+
+        goalInput.addEventListener("input", () => {
+            goalText.textContent = goalInput.value || "Your Goal";
+        });
+
+        function updateUI() {
+            progressBar.style.width = progress + "%";
+            percentageText.textContent = progress + "%";
+        }
+
+        function increase() {
+            if (progress < 100) {
+                progress += 10;
+                updateUI();
+            }
+        }
+
+        function decrease() {
+            if (progress > 0) {
+                progress -= 10;
+                updateUI();
+            }
+        }
+
+        function resetProgress() {
+            progress = 0;
+            updateUI();
+        }
+    </script>
+
+</body>
+</html>
